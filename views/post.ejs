@@ -1,0 +1,18 @@
+<%- include("partials/header.ejs")  %>
+
+
+<h1><%= title %></h1>
+<p class="post-text"><%= content %></p>
+
+<div class="single-post-method">
+    <form action="/post/<%= title %>" method="put">
+        <button type="button" class="btn btn-primary">Edit</button>
+    </form>
+
+    <form action="/post/<%= title %>" method="delete">
+        <button type="button" class="btn btn-danger">Delete</button>
+    </form>
+</div>
+
+
+<%- include("partials/footer.ejs")  %>

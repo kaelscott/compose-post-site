@@ -1,0 +1,24 @@
+<%- include("partials/header.ejs") %>
+
+
+<h1>Compose</h1>
+
+<form action="/compose" method="post">
+    <div class="form-group">
+
+        <label for="">Title</label>
+        <input type="text" name="postTitle" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="">Post</label>
+        <textarea name="postBody" cols="40" rows="5" class="form-control"></textarea>
+    </div>
+
+        <button id="publish-btn" type="submit" name="button" class="btn btn-primary">Publish</button>
+
+        <div id="succes-alert" class="alert alert-success" role="alert">Post successfully published.</div>
+</form>
+
+
+<%- include("partials/footer.ejs") %>
