@@ -45,6 +45,8 @@
 
 .post-text{
     margin-bottom: 25px;
+    overflow-wrap: break-word;
+    text-align: justify;
 }
 
 #publish-btn{
