@@ -1,6 +1,6 @@
 import express from "express"
 import _ from "lodash"   // usado neste projeto para ser usado no url
-import { posts } from "../app.js"   // importa o array posts do arquivo app.js
+import { Compose } from "../models.js"
 
 const router = express.Router()
 
@@ -8,30 +8,36 @@ const router = express.Router()
 
 router
 //    ("/post/:postName")
-.route("/:postName")// os dois pontos servem para identificar oq foi escrito na url
-.get((req, res) => {
-    // req.params.postName pega oq foi escrito na url dps do /post/
-    // decodeURIComponent decodifica a url
-    // _.lowerCase deixa a url em minusculo e da pra pesquisar com hifen ex(amo-pe)
-    const requestedTitle = _.lowerCase(decodeURIComponent(req.params.postName))
-    // procura dentro do array posts um titulo igual ao q o user colocou no url
-    const post = posts.find((post) => requestedTitle === _.lowerCase(post.title))
-
-    if (post) {   // se o titulo foi encontrado o user é levado pro post.ejs
-        res.render("post.ejs", {
-            title: post.title,   // pega o titulo/conteudo do post que foi
-            content: post.content // encontrado dentro do posts.find
-        })
-    } else {   // se nao existir o post digitado aparece msg de
-        res.status(404).json({ message: "post nao encontrado" })
+router.get("/:postName", async (req, res) => {
+    try{
+        const requestedTitle = _.lowerCase(decodeURIComponent(req.params.postName))
+        const post = await Compose.findOne({ title: requestedTitle}).exec()
+        console.log(post)
+        if (post) {   // se o titulo foi encontrado o user é levado pro post.ejs
+            res.render("post.ejs", {
+                title: post.title,   // pega o titulo/conteudo do post que foi
+                content: post.content, // encontrado dentro do posts.find
+            })
+        } else {   // se nao existir o post digitado aparece msg de
+            res.status(404).json({ message: "post nao encontrado" })
+        }
+    } catch (error) {
+        console.error("Erro ao buscar post:", error);
+        res.status(500).send("Erro Interno do Servidor");
     }
 })
-.put((req, res) => {
-    res.send(`update id: ${req.params.postName}`)
+
+router.post("/:postName/delete", async (req, res) => {
+    const requestedTitle = _.lowerCase(decodeURIComponent(req.params.postName))
+
+    if (req.body.hasOwnProperty("delete")) {
+        const deletedPost = await Compose.findOneAndDelete({ title: requestedTitle })
+        if (deletedPost) {
+            res.redirect("/")
+        }
+    }
 })
-.delete((req, res) => {
-    res.send(`delete id: ${req.params.postName}`)
-})
+
 
 
 

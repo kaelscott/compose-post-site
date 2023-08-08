@@ -1,16 +1,17 @@
 <%- include("partials/header.ejs")  %>
 
 
+
 <h1><%= title %></h1>
 <p class="post-text"><%= content %></p>
 
 <div class="single-post-method">
-    <form action="/post/<%= title %>" method="put">
-        <button type="button" class="btn btn-primary">Edit</button>
+    <form action="/post/<%= title %>" method="post">
+        <button type="submit" class="btn btn-primary" name="edit">Edit</button>
     </form>
 
-    <form action="/post/<%= title %>" method="delete">
-        <button type="button" class="btn btn-danger">Delete</button>
+    <form action="/post/<%= title %>/delete" method="post">
+        <button type="submit" class="btn btn-danger" name="delete">Delete</button>
     </form>
 </div>
 
