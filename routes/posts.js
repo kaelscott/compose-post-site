@@ -12,7 +12,6 @@ router.get("/:postName", async (req, res) => {
     try{
         const requestedTitle = _.lowerCase(decodeURIComponent(req.params.postName))
         const post = await Compose.findOne({ title: requestedTitle}).exec()
-        console.log(post)
         if (post) {   // se o titulo foi encontrado o user é levado pro post.ejs
             res.render("post.ejs", {
                 title: post.title,   // pega o titulo/conteudo do post que foi
